@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import "package:firebase_auth/firebase_auth.dart";
 import { useHistory, Link } from "react-router-dom";
-
 import { auth, provider } from "../main.js";
 
 function Header() {
@@ -91,11 +89,11 @@ function Header() {
               <img src="/images/home-icon.svg" alt="home" />
               <span>Home</span>
             </Link>
-            <Link to="/search" alt="search">
+            <Link to="/home" alt="search">
               <img src="/images/search-icon.svg" alt="search" />
               <span>Search</span>
             </Link>
-            <Link to="/" alt="home">
+            <Link to="/home" alt="home">
               <img src="/images/watchlist-icon.svg" alt="home" />
               <span>WatchList</span>
             </Link>
