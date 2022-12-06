@@ -15,25 +15,25 @@ const ImgSlider = (props) => {
   return (
     <Carousel {...settings}>
       <Wrap>
-        <a href="/home">
+        <a href="#">
           <img src="/images/slider-badging.jpg" alt="" />
         </a>
       </Wrap>
 
       <Wrap>
-        <a href="/home">
+        <a href="#">
           <img src="/images/slider-scale.jpg" alt="" />
         </a>
       </Wrap>
 
       <Wrap>
-        <a href="/home">
+        <a href="#">
           <img src="/images/slider-badag.jpg" alt="" />
         </a>
       </Wrap>
 
       <Wrap>
-        <a href="/home">
+        <a href="#">
           <img src="/images/slider-scales.jpg" alt="" />
         </a>
       </Wrap>
@@ -71,11 +71,11 @@ const Carousel = styled(Slider)`
   }
 
   .slick-prev {
-    left: -75px;
+    left: -55px;
   }
 
   .slick-next {
-    right: -75px;
+    right: -55px;
   }
 `;
 

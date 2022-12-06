@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createContext } from "react";
+import React, { useEffect,useState, createContext } from "react";
 import styled from "styled-components";
 import ImgSlider from "./ImgSlider";
 import Recommends from "./Recommends";
@@ -7,63 +7,52 @@ import Originals from "./Originals";
 import Trending from "./Trending";
 import db from "../main";
 import NewDisney from "./NewDisney";
+import {collection,getDocs} from 'firebase/firestore'
 export const firebaseData = createContext();
 function Home() {
-  let [details, setDetails] = useState([]);
-  let recommends = [];
-  let newDisneys = [];
-  let originals = [];
-  let trending = [];
+  let [recommends,setRecommends] = useState([]);
+  let [newDisneys,setNewDisneys] = useState([]);
+  let [originals,setOriginals] = useState([]);
+  let [trending,setTrending] = useState([]);
+  let films = collection(db,"movies");
 
- 
   useEffect(() => {
-    const getInfoFromFirebase = [];
-    const subscriber = db.collection("movies").onSnapshot((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        getInfoFromFirebase.push({
-          id: doc.id,
-          ...doc.data(),
-        });
-      });
-      setDetails(getInfoFromFirebase);
+    getDocs(films).then(docs => {
+      docs.forEach(doc => {
+        switch (doc.data().type) {
+          case "recommend":
+            setRecommends(prev => [...prev,{id: doc.id, ...doc.data()}]);
+            break;
+  
+          case "new":
+            setNewDisneys(prev => [...prev,{id: doc.id, ...doc.data()}]);
+            break;
+  
+          case "original":
+            setOriginals(prev => [...prev,{id: doc.id, ...doc.data()}]);
+            break;
+  
+          case "trending":
+            setTrending(prev => [...prev,{id: doc.id, ...doc.data()}]);
+            break;
+          default:
+            return {id: doc.id, ...doc.data()}
+        }
+      })
     });
-
-    return () => subscriber();
-  }, []);
-  (function () {
-    details.map((item) => {
-      switch (item.type) {
-        case "recommend":
-          recommends.push(item);
-          break;
-
-        case "new":
-          newDisneys.push(item);
-          break;
-
-        case "original":
-          originals.push(item);
-          break;
-
-        case "trending":
-          trending.push(item);
-          break;
-      }
-    });
-  })();
+  },[])
 
   console.log(recommends);
   console.log(newDisneys);
   console.log(originals);
   console.log(trending);
-  console.log(details);
   return (
     <firebaseData.Provider
       value={{
-        recommends: recommends,
-        newDisneys: newDisneys,
-        originals: originals,
-        trending: trending,
+        recommends,
+        newDisneys,
+        originals,
+        trending,
       }}
     >
       <Container>

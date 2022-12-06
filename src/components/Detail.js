@@ -7,6 +7,8 @@ import db from "../main";
 function Detail() {
   const { id } = useParams();
   const [detailData, setDetailData] = useState({});
+  const [showMovie,setShowMovie] = useState(false);
+  const [showTrailer,setShowTrailer] = useState(false);
 
   useEffect(() => {
     db.collection("movies")
@@ -35,11 +37,11 @@ function Detail() {
       </ImageTitle>
       <ContentMeta>
         <Controls>
-          <Player>
+          <Player onClick={() => setShowMovie(true)}>
             <img src="/images/play-icon-black.png" alt="" />
             <span>Play</span>
           </Player>
-          <Trailer>
+          <Trailer onClick={() => setShowTrailer(true)}>
             <img src="/images/play-icon-white.png" alt="" />
             <span>Trailer</span>
           </Trailer>
@@ -56,9 +58,32 @@ function Detail() {
         <SubTitle>{detailData.subTitle}</SubTitle>
         <Description>{detailData.description}</Description>
       </ContentMeta>
+      {
+        showMovie ? 
+        <WatchMovie onClick={() => setShowMovie(false)}>
+          <iframe  width="80%" height="50%" src={`${detailData.movie}`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen> Some problem occured</iframe>
+        </WatchMovie> : null
+      }
+      {
+        showTrailer ? 
+        <WatchMovie onClick={() => setShowTrailer(false)}>
+        <iframe width="80%" height="50%" src={`${detailData.movie}`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen> Some problem occured</iframe>
+        </WatchMovie> : null
+      }
     </Container>
   );
 }
+const WatchMovie = styled.div`
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background-color: rgba(0, 0, 0, 0.556);
+`
 const Container = styled.div`
   position: relative;
   min-height: calc(100vh-250px);
@@ -78,9 +103,8 @@ const Background = styled.div`
   img {
     width: 100vw;
     height: 100vh;
-    @media (max-width: 768px) {
-      width: auto;
-    }
+    object-fit: cover;
+    object-position: center;
   }
 `;
 const ImageTitle = styled.div`

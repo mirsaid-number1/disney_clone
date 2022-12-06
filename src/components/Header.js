@@ -31,7 +31,7 @@ function Header() {
     auth.onAuthStateChanged(async (user) => {
       if (user) {
         setUser(user);
-        history.push("/home");
+        // history.push("/home");
       }
     });
   }, [name]);
@@ -45,6 +45,7 @@ function Header() {
           console.log(result);
           console.log(result.additionalUserInfo.profile.picture);
           console.log(result.user.photoURL);
+          history.push("/home");
         })
         .catch((error) => {
           alert(error.message);
@@ -74,7 +75,7 @@ function Header() {
     <Nav>
       <Logo
         onClick={() => {
-          alert(`${name} ${email} ${img}`);
+          history.push('/home')
         }}
       >
         <img src="/images/logo.svg" alt="Disney +" />
@@ -89,7 +90,7 @@ function Header() {
               <img src="/images/home-icon.svg" alt="home" />
               <span>Home</span>
             </Link>
-            <Link to="/home" alt="search">
+            <Link to="/movie" alt="search">
               <img src="/images/search-icon.svg" alt="search" />
               <span>Search</span>
             </Link>
@@ -118,75 +119,12 @@ function Header() {
           </SignOut>
         </>
       ) : (
-        <>
-          <MenuDropDown
-            onClick={() => {
-              setMenuDrop(!menuDrop);
-            }}
-          >
-            {menuDrop ? (
-              <DropDownList>
-                <span>Menu list</span>
-                <img src="/images/up-arrow.png" alt="dropdown" />
-                <ul>
-                  <li>
-                    <Link to="/home" alt="home">
-                      <img src="/images/home-icon.svg" alt="home" />
-                      <span>Home</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/search" alt="search">
-                      <img src="/images/search-icon.svg" alt="search" />
-                      <span>Search</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/search" alt="search">
-                      <img src="/images/search-icon.svg" alt="search" />
-                      <span>Search</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/" alt="home">
-                      <img src="/images/watchlist-icon.svg" alt="home" />
-                      <span>WatchList</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/home" alt="home">
-                      <img src="/images/original-icon.svg" alt="home" />
-                      <span>Originals</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/home" alt="home">
-                      <img src="/images/movie-icon.svg" alt="home" />
-                      <span>Movies</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/home" alt="home">
-                      <img src="/images/series-icon.svg" alt="home" />
-                      <span>Series</span>
-                    </Link>
-                  </li>
-                </ul>
-              </DropDownList>
-            ) : (
-              <DropDownLook>
-                <span>Menu list</span>
-                <img src="/images/down-arrow.png" alt="dropdown" />
-              </DropDownLook>
-            )}
-          </MenuDropDown>
-          <SignOut>
-            <UserImg src={img} alt="user image" />
-            <DropDown>
-              <span onClick={handleAuth}>Sign out</span>
-            </DropDown>
-          </SignOut>
-        </>
+        <SignOut>
+        <UserImg src={img} alt="user image" />
+        <DropDown>
+          <span onClick={handleAuth}>Sign out</span>
+        </DropDown>
+      </SignOut>
       )}
     </Nav>
   );
@@ -213,6 +151,7 @@ const Logo = styled.a`
   margin-height: 70px;
   font-size: 0;
   display: inline-block;
+  cursor:pointer;
 
   img {
     display: block;
@@ -264,12 +203,12 @@ const NavMenu = styled.div`
         right: 0px;
         transform-origin: left center;
         transfrom: scaleX(0);
-        transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
         visibility: hidden;
         width: auto;
       }
-    }
 
+    }
+     
     &:hover {
       span:before {
         transform: scaleX(1);
